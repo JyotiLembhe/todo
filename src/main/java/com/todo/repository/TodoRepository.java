@@ -22,8 +22,8 @@ public class TodoRepository {
         return todoStore.get(i);
     }
 
-    public Todo remove(int i) {
-        return todoStore.remove(i);
+    public void remove(int i) {
+        todoStore.remove(i);
     }
 
     public Todo update(Todo todo) {

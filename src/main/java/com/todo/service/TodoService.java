@@ -38,21 +38,14 @@ public class TodoService {
     }
 
     public Todo updateTodo(Integer todoId, Todo newtTodo) {
-        Optional<Todo> todoOptional = findById(todoId);
-        if ( !todoOptional.isPresent() ) {
-            throw new TodoNotFound();
-        }
-        delete(todoOptional.get().getId());
-        newtTodo.setId(todoId);
-        try {
-            return todoRepository.update(newtTodo);
-        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-            throw new TodoNotFound();
-        }
+        Todo todo = findById(todoId);
+        todo.setTitle(newtTodo.getTitle());
+        todo.setIsCompleted(newtTodo.getIsCompleted());
+        return todoRepository.update(todo);
     }
 
-    public Optional<Todo> findById(int id) {
-        return todoRepository.findById(id);
+    public Todo findById(int id) {
+        return todoRepository.findById(id).orElseThrow(TodoNotFound::new);
     }
 
     public List<Todo> findAll() {
